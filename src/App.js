@@ -1,15 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import NasaPhoto from "./Components/NASAphoto";
 import "./App.css";
 
+// const dummyData = {
+//   date: "2023-01-21",
+//   explanation: "Comet C/2022E3 (ZTF) is no longer too dim to require a telescope for viewing. By January 19, it could just be seen with the naked eye in this rural sky with little light pollution from a location about 20 kilometers from Salamanca, Spain. Still, telescopic images are needed to show any hint of the comet's pretty green coma, stubby whitish dust tail, and long ion tail. Its faint ion tail has been buffeted by recent solar activity. This visitor from the distant Oort cloud rounded the Sun on January 12. and is now sweeping through stars near the northern boundary of the constellation Bootes. Outward bound but still growing brighter, Comet ZTF makes its closest approach on February 2, coming to within about 2.4 light-minutes of our fair planet.",
+//   hdurl: "https://apod.nasa.gov/apod/image/2301/ZTF_salamanca.jpg",
+//   title: "Naked-eye Comet ZTF"    
+// }
+
+
+
 function App() {
+
+  const [ data, setData ] = useState();
+
+  useEffect(() => {
+    axios.get('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY')
+    .then(res => {
+      console.log(res);
+          setData(res.data)
+    })
+    .catch(err => console.err(err))
+  }, [])
   return (
     <div className="App">
-      <p>
-        Read through the instructions in the README.md file to build your NASA
-        app! Have fun <span role="img" aria-label='go!'>🚀</span>!
-      </p>
+      {data && <NasaPhoto photo={data} /> }
     </div>
   );
 }
 
 export default App;
+
+
